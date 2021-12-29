@@ -1,7 +1,6 @@
 import React, { createContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { setToken } from './helpers';
 
 const authContext = createContext();
 
@@ -10,20 +9,18 @@ export function useAuth() {
 
   return {
     authed,
-    login(value) {
+    login(value, setToken, callback) {
       axios
         .post('/login', value)
         .then((result) => {
           if (result.status === 200) {
             setToken(result.data);
             setAuthed(true);
-            console.log(true);
-          } else {
-            // setIsError(true);
+            callback();
           }
         })
         .catch(() => {
-          // setIsError(true);
+          // set Error
         });
     },
     logout() {

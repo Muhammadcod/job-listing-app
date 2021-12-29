@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 // import PropTypes from 'prop-types';
 
 const Navbar = () => {
@@ -22,17 +23,17 @@ const Navbar = () => {
 
         <a
           href='#'
-          className='text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'
+          className='bg-white rounded-md text-black hover:bg-black hover:text-white px-3 py-2 rounded-md text-sm font-medium'
         >
           Find Salaries
         </a>
 
-        <a
-          href='#'
-          className='bg-white rounded-md text-black hover:bg-black hover:text-white px-3 py-2 rounded-md text-sm font-medium'
+        <Link
+          to='/admin'
+          className='text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'
         >
           Post Job
-        </a>
+        </Link>
       </div>
     </div>
   );

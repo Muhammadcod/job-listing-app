@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Field, Form, Formik } from 'formik';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -9,7 +10,7 @@ const LoginSchema = Yup.object({
   password: Yup.string(),
 });
 
-const Login = () => {
+const Login = ({ setToken }) => {
   const navigate = useNavigate();
   const { login } = useAuth();
   const { state } = useLocation();
@@ -18,9 +19,11 @@ const Login = () => {
     password: '',
   });
 
+  let from = state?.path || '/admin';
+
   const submitForm = (values) => {
-    login(values).then(() => {
-      navigate(state?.path || '/admin');
+    login(values, setToken, () => {
+      navigate(from, { replace: true });
     });
   };
 
@@ -38,7 +41,7 @@ const Login = () => {
           </div>
         </div>
 
-        <div className='mt-5 md:mt-0 md:col-span-2 h-screen flex items-center p-20 border-2 border-rose-500'>
+        <div className='mt-5 md:mt-0 md:col-span-2 h-screen flex items-center p-20'>
           <Formik
             enableReinitialize
             initialValues={formData}
@@ -46,7 +49,7 @@ const Login = () => {
             onSubmit={submitForm}
           >
             {({ isSubmitting, isValid, dirty }) => (
-              <Form className='border-2 border-rose-500 w-3/4'>
+              <Form className='w-3/4'>
                 <div className='grid grid-cols-2 gap-6  '>
                   <section className='col-span-6 sm:col-span-3'>
                     <label
@@ -99,4 +102,7 @@ const Login = () => {
   );
 };
 
+Login.propTypes = {
+  setToken: PropTypes.func,
+};
 export default Login;
