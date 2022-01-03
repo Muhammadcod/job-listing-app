@@ -2,44 +2,65 @@ import React, { useState } from 'react';
 // import PropTypes from 'prop-types';
 import { Field, Form, Formik } from 'formik';
 import Label from './Label';
-import * as Yup from 'yup';
+import Axios from '../services/Axios';
+// import * as Yup from 'yup';
 
 const employmentType = [
-  { id: 1, name: 'Full Time' },
-  { id: 3, name: 'Contract' },
-  { id: 3, name: 'Part Time' },
-  { id: 3, name: 'Associate' },
+  { id: 'full Time', name: 'Full Time' },
+  { id: 'volunteer', name: 'Volunteer' },
+  { id: 'contract', name: 'Contract' },
+  { id: 'permanent', name: 'Permanent' },
+  { id: 'internship', name: 'Internship' },
+  { id: 'temporary', name: 'Temporary' },
 ];
 
 const sectorOption = [
-  { id: 1, name: 'Engineering' },
-  { id: 3, name: 'Aviation' },
-  { id: 3, name: 'Fashion' },
-  { id: 3, name: 'Telecommunication' },
+  { id: 'marketing', name: 'Marketing' },
+  { id: 'health care', name: 'Health care' },
+  { id: 'hospitality', name: 'Hospitality' },
+  { id: 'customer service', name: 'Customer Service' },
+  { id: 'tech', name: 'Tech' },
 ];
 
-const LoginSchema = Yup.object({
-  title: Yup.string().min(5, 'Too Short'),
-  companyName: Yup.string().min(5, 'Too Short'),
-  location: Yup.string().min(5, 'Too Short'),
-  deadline: Yup.string().min(5, 'Too Short'),
-  sector: Yup.string().min(5, 'Too Short'),
-  type: Yup.string(),
-  salary: Yup.string,
-});
+const workConditions = [
+  { id: 'remote', name: 'Remote' },
+  { id: 'part remote', name: 'Part Remote' },
+  { id: 'on-premise', name: 'On-Premise' },
+];
+
+// const jobSchema = Yup.object({
+//   title: Yup.string().min(5, 'Too Short'),
+//   company: Yup.string().min(5, 'Too Short'),
+//   location: Yup.string().min(5, 'Too Short'),
+//   deadline: Yup.string().min(5, 'Too Short'),
+//   category: Yup.string().min(5, 'Too Short'),
+//   salary: Yup.string,
+// });
 
 const JobCreationForm = () => {
   const [formData] = useState({
     title: '',
     salary: '',
-    companyName: '',
+    company: '',
     location: '',
     type: '',
     deadline: '',
-    sector: '',
+    category: '',
+    description: '',
+    work_condition: '',
+    benefits: '',
   });
 
-  const submitForm = () => {};
+  const submitForm = async (values) => {
+    try {
+      const { status } = await Axios.post(`/my/jobs`, values);
+      if (status) {
+        console.log('kk');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className='bg-white px-4 pt-5 pb-4 sm:px-6 sm:py-14 font-poppins'>
@@ -50,12 +71,7 @@ const JobCreationForm = () => {
           candidates
         </p>
       </div>
-      <Formik
-        enableReinitialize
-        initialValues={formData}
-        validationSchema={LoginSchema}
-        onSubmit={submitForm}
-      >
+      <Formik enableReinitialize initialValues={formData} onSubmit={submitForm}>
         {({ isSubmitting, isValid, dirty }) => (
           <Form className=''>
             <section className='mb-7'>
@@ -67,6 +83,7 @@ const JobCreationForm = () => {
                   id='title'
                   className='focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md'
                   placeholder=''
+                  required
                 />
               </div>
             </section>
@@ -76,10 +93,11 @@ const JobCreationForm = () => {
               <div className='mt-1 relative rounded-md shadow-sm'>
                 <Field
                   type='text'
-                  name='companyName'
-                  id='companyName'
+                  name='company'
+                  id='company'
                   className='focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md'
                   placeholder=''
+                  required
                 />
               </div>
             </section>
@@ -93,6 +111,7 @@ const JobCreationForm = () => {
                   id='location'
                   className='focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md'
                   placeholder=''
+                  required
                 />
               </div>
             </section>
@@ -107,6 +126,7 @@ const JobCreationForm = () => {
                   as='select'
                   className='focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md'
                   placeholder='Select option'
+                  required
                 >
                   <option value='' disabled>
                     Choose category
@@ -134,6 +154,58 @@ const JobCreationForm = () => {
             </section>
 
             <section className='mb-7'>
+              <Label htmlFor='salary'>Description</Label>
+              <div className='mt-1 '>
+                <Field
+                  type='text'
+                  name='description'
+                  id='description'
+                  as='textarea'
+                  className='shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md'
+                  placeholder=''
+                  required
+                />
+              </div>
+            </section>
+
+            <section className='mb-7'>
+              <Label htmlFor='salary'>Work Condition</Label>
+              <div className='mt-1 relative rounded-md shadow-sm'>
+                <Field
+                  type='text'
+                  name='work_condition'
+                  id='work_condition'
+                  className='focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md'
+                  placeholder=''
+                  as='select'
+                  required
+                >
+                  <option value='' disabled>
+                    Choose category
+                  </option>
+                  {workConditions.map((ec) => (
+                    <option value={ec.id} key={ec.id}>
+                      {ec.name}
+                    </option>
+                  ))}
+                </Field>
+              </div>
+            </section>
+
+            <section className='mb-7'>
+              <Label htmlFor='salary'>Benefits</Label>
+              <div className='mt-1 relative rounded-md shadow-sm'>
+                <Field
+                  type='text'
+                  name='benefits'
+                  id='benefits'
+                  className='focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md'
+                  placeholder=''
+                />
+              </div>
+            </section>
+
+            <section className='mb-7'>
               <Label htmlFor='deadline'>Submission deadline</Label>
               <div className='mt-1 relative rounded-md shadow-sm'>
                 <input
@@ -147,14 +219,14 @@ const JobCreationForm = () => {
             </section>
 
             <section className='mb-7'>
-              <Label htmlFor='sector'>
+              <Label htmlFor='category'>
                 What Sector is this job categorized under?
               </Label>
               <div className='mt-1 relative rounded-md shadow-sm'>
                 <Field
                   type='text'
-                  name='price'
-                  id='price'
+                  name='category'
+                  id='category'
                   as='select'
                   className='focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md'
                 >
