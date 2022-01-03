@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
+import Axios from './Axios';
 
 const authContext = createContext();
 
@@ -10,8 +10,7 @@ export function useAuth() {
   return {
     authed,
     login(value, setToken, callback) {
-      axios
-        .post('/login', value)
+      Axios.post('/login', value)
         .then((result) => {
           if (result.status === 200) {
             setToken(result.data);
@@ -23,11 +22,16 @@ export function useAuth() {
           // set Error
         });
     },
-    logout() {
-      return new Promise((res) => {
-        setAuthed(false);
-        res();
-      });
+    logout(callback) {
+      Axios.post('/logout')
+        .then((result) => {
+          if (result.status === 200) {
+            callback();
+          }
+        })
+        .catch(() => {
+          // set Error
+        });
     },
   };
 }

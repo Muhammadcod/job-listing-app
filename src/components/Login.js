@@ -4,6 +4,8 @@ import { Field, Form, Formik } from 'formik';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import useAuth from '../services/useAuth';
+import Hero from '../assets/hero-image.png';
+import { ReactComponent as Logo } from '../assets/logo.svg';
 
 const LoginSchema = Yup.object({
   email: Yup.string().trim().lowercase(),
@@ -29,15 +31,18 @@ const Login = ({ setToken }) => {
 
   return (
     <div className='mt-10 sm:mt-0 bg-base-color min-h-screen'>
-      <div className='md:grid md:grid-cols-4 md:gap-6'>
-        <div className='md:col-span-2'>
-          <div className='px-4 sm:px-0'>
-            <h3 className='text-lg font-medium leading-6 text-gray-900'>
-              Personal Information
+      <div className='md:grid md:grid-cols-4 md:gap-6  bg-hero'>
+        <div className='md:col-span-2 flex items-center justify-center  '>
+          <div className='px-4 sm:px-0  text-white'>
+            <div className='absolute top-5'>
+              <Logo />
+            </div>
+            <h3 className='text-5xl pl-6 font-medium leading-snug font-poppins '>
+              Find the best <br /> candidates for your <br /> organisation.
             </h3>
-            <p className='mt-1 text-sm text-gray-600'>
-              Use a permanent address where you can receive mail.
-            </p>
+            <div>
+              <img src={Hero} alt='' />
+            </div>
           </div>
         </div>
 
@@ -49,12 +54,15 @@ const Login = ({ setToken }) => {
             onSubmit={submitForm}
           >
             {({ isSubmitting, isValid, dirty }) => (
-              <Form className='w-3/4'>
+              <Form className='w-3/4 font-poppins'>
+                <div className='mb-5 text-4xl text-dark-cyan-blue'>
+                  <h5>Login</h5>
+                </div>
                 <div className='grid grid-cols-2 gap-6  '>
                   <section className='col-span-6 sm:col-span-3'>
                     <label
                       htmlFor='first-name'
-                      className='block text-sm font-medium text-gray-700'
+                      className='block font-medium text-lg  text-dark-cyan-blue text-extralight'
                     >
                       Email
                     </label>
@@ -63,14 +71,14 @@ const Login = ({ setToken }) => {
                       name='email'
                       type='email'
                       autoComplete='email'
-                      className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                      className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-sky-900 rounded-md'
                     />
                   </section>
 
                   <div className='col-span-6 sm:col-span-3'>
                     <label
                       htmlFor='last-name'
-                      className='block text-sm font-medium text-gray-700'
+                      className='block font-medium text-lg text-sky-900 text-extralight'
                     >
                       Password
                     </label>
@@ -80,17 +88,17 @@ const Login = ({ setToken }) => {
                       type='password'
                       autoComplete='current-password'
                       required
-                      className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                      className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-sky-900 rounded-md'
                     />
                   </div>
                 </div>
-                <div className='px-4 py-3 text-right sm:px-6'>
+                <div className='py-3 mt-4'>
                   <button
                     type='submit'
-                    className='inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                    className='inline-flex justify-center py-2 px-7 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-sky-900 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500'
                     disabled={isSubmitting || !isValid || !dirty}
                   >
-                    Save
+                    Login
                   </button>
                 </div>
               </Form>
